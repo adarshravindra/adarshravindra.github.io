@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Scan — Adarsh Ravindra</title>
+<meta name="description" content="An AI model automating merchant category classification for India's largest payment gateway. 4M+ merchants onboarded.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Georgia,serif'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://adarshravindra.github.io/projects/site-scan.html">
+<meta name="theme-color" content="#FAFAF9">
+<meta name="author" content="Adarsh Ravindra">
+
+<!-- Open Graph / LinkedIn / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://adarshravindra.github.io/projects/site-scan.html">
+<meta property="og:title" content="Site Scan — Adarsh Ravindra">
+<meta property="og:description" content="An AI model automating merchant category classification for India's largest payment gateway. 4M+ merchants onboarded.">
+<meta property="og:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Adarsh Ravindra">
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Site Scan — Adarsh Ravindra">
+<meta name="twitter:description" content="An AI model automating merchant category classification for India's largest payment gateway. 4M+ merchants onboarded.">
+<meta name="twitter:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../css/style.css?v=4">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav scrolled">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Adarsh Ravindra</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <header class="wrap case-header">
+    <a href="../index.html#work" class="case-back">&larr; Back to work</a>
+    <h1 class="case-title">Site Scan</h1>
+    <p class="case-meta">Founding Product Manager · IDfy · 2023–2026</p>
+  </header>
+
+  <section class="wrap case-body">
+    <p class="case-lede">An AI model I built from the ground up to automate merchant category classification for India's largest payment gateway — onboarding over 4 million merchants, fully compliant with Mastercard and Visa standards.</p>
+
+    <div class="stats reveal-group">
+      <div>
+        <div class="stat-value">4M+</div>
+        <div class="stat-label">Merchants onboarded in 3 years</div>
+      </div>
+      <div>
+        <div class="stat-value">$200K</div>
+        <div class="stat-label">Annual run rate</div>
+      </div>
+      <div>
+        <div class="stat-value">400+</div>
+        <div class="stat-label">MCC codes in the classification directory</div>
+      </div>
+      <div>
+        <div class="stat-value">0&rarr;1</div>
+        <div class="stat-label">Proposed and built from scratch</div>
+      </div>
+    </div>
+
+    <div class="case-section reveal">
+      <h2>The problem</h2>
+      <p>Every merchant onboarding onto a payment gateway has to be classified for risk and compliance — what line of business they are actually in, whether their website meets regulatory requirements, and whether they are selling anything restricted.</p>
+      <p>Doing that manually was slow and inconsistent, and it did not scale to the volume a gateway of this size onboards. Classification quality varied by reviewer, and the review step became the bottleneck in an otherwise automated funnel.</p>
+    </div>
+
+    <div class="case-section reveal">
+      <h2>What I built</h2>
+      <p>A decisioning model that takes a merchant's website link as its only input and returns a classification and risk verdict instantly.</p>
+      <ul>
+        <li><strong>MCC prediction</strong> — establishes line of business by returning the top two merchant category codes from a directory of 400+.</li>
+        <li><strong>Website compliance checks</strong> — verifies liveness and redirection behaviour against IT Act requirements, and confirms the basics are present: home page, contact page, policy pages.</li>
+        <li><strong>Risk checks</strong> — scans for restricted words and contraband items, evaluates business-specific context on the site, and flags potential impersonation.</li>
+      </ul>
+      <p>The output feeds the gateway's onboarding decision directly, so a merchant can be classified and cleared without a human in the loop.</p>
+    </div>
+
+    <div class="case-section reveal">
+      <h2>Outcome</h2>
+      <p>Site Scan runs as production infrastructure for merchant onboarding at India's largest payment gateway, has classified over 4 million merchants, and operates at a $200K annual run rate while meeting Mastercard and Visa compliance standards.</p>
+    </div>
+
+    <div class="case-section reveal" id="materials">
+      <h2>Materials</h2>
+      <div class="link-list reveal-group">
+        <a href="../assets/decks/site-scan-deck.pptx">Site Scan — product deck<span class="link-meta">PPTX · 2 MB</span></a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="wrap case-next">
+    <span class="case-next-label">Next</span>
+    <a href="salesroom.html" class="case-next-name">Salesroom &rarr;</a>
+  </nav>
+</main>
+
+<script src="../js/main.js?v=4"></script>
+</body>
+</html>

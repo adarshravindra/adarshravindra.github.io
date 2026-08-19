@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transaction Intelligence Platform — Adarsh Ravindra</title>
+<meta name="description" content="A lending intelligence platform generating 300+ credit decisioning signals across India and Indonesia, impacting 7M+ loan applications.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Georgia,serif'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://adarshravindra.github.io/projects/tip.html">
+<meta name="theme-color" content="#FAFAF9">
+<meta name="author" content="Adarsh Ravindra">
+
+<!-- Open Graph / LinkedIn / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://adarshravindra.github.io/projects/tip.html">
+<meta property="og:title" content="Transaction Intelligence Platform — Adarsh Ravindra">
+<meta property="og:description" content="A lending intelligence platform generating 300+ credit decisioning signals across India and Indonesia, impacting 7M+ loan applications.">
+<meta property="og:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Adarsh Ravindra">
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Transaction Intelligence Platform — Adarsh Ravindra">
+<meta name="twitter:description" content="A lending intelligence platform generating 300+ credit decisioning signals across India and Indonesia, impacting 7M+ loan applications.">
+<meta name="twitter:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../css/style.css?v=4">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav scrolled">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Adarsh Ravindra</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <header class="wrap case-header">
+    <a href="../index.html#work" class="case-back">&larr; Back to work</a>
+    <h1 class="case-title">Transaction Intelligence Platform</h1>
+    <p class="case-meta">Founding Product Manager · IDfy · 2023–2026</p>
+  </header>
+
+  <section class="wrap case-body">
+    <p class="case-lede">I built a lending intelligence platform that generates 300+ credit decisioning signals for financial institutions across India and Indonesia — going from zero to impacting 7 million loan applications in under two years.</p>
+
+    <div class="stats reveal-group">
+      <div>
+        <div class="stat-value">7M+</div>
+        <div class="stat-label">Loan applications processed in 20 months</div>
+      </div>
+      <div>
+        <div class="stat-value">$550K</div>
+        <div class="stat-label">Annual run rate at scale</div>
+      </div>
+      <div>
+        <div class="stat-value">94%</div>
+        <div class="stat-label">Model accuracy within 8 months of launch</div>
+      </div>
+      <div>
+        <div class="stat-value">300+</div>
+        <div class="stat-label">Credit decisioning signals generated</div>
+      </div>
+    </div>
+
+    <div class="case-section reveal">
+      <h2>The problem</h2>
+      <p>Lenders were underwriting on tooling that had not kept pace with how borrowers actually transact. Traditional bank statement analysis extracts only a narrow slice of what a statement contains — keyword matching catches salary credits and ATM withdrawals, then gives up on everything else.</p>
+      <ul>
+        <li>Underwriting leaned heavily on bureau data, overlooking the large majority of signal generated through day-to-day transactions.</li>
+        <li>Fraud detection relied on visual checks, while forgery tools grew more sophisticated and statements began reconciling perfectly on their face.</li>
+        <li>Template-based extraction broke whenever an issuing bank changed its statement format, producing false positives and unnecessary rejections.</li>
+        <li>Risk checks were static and identical for every lender, with no way to configure against a specific risk appetite or portfolio.</li>
+      </ul>
+    </div>
+
+    <div class="case-section reveal">
+      <h2>What I built</h2>
+      <p>An intelligence engine that extracts, interprets, and transforms data across multiple sources into a decision-ready profile of a credit applicant — income, expenses, savings, obligations, fraud markers, and legal exposure.</p>
+      <ul>
+        <li><strong>Three sequential small language models</strong> replacing hard-coded keyword matching, so transactions are categorized by meaning rather than string match.</li>
+        <li><strong>An LLM-supervised feedback loop</strong> that continuously trains and evaluates those models — the mechanism that carried accuracy to 94% within 8 months.</li>
+        <li><strong>Champion-challenger and data-annotation processes</strong>, built with the ML and Data Analytics teams, to measure and monitor model performance in production rather than at launch only.</li>
+        <li><strong>A configurable risk library</strong> so each lender could tune signals to its own risk appetite instead of accepting a fixed set of checks.</li>
+        <li><strong>Modular delivery</strong> — statement collection, pre-check, analysis, and risk flags as separate modules that slot into an existing LOS/LMS without re-architecting it.</li>
+      </ul>
+    </div>
+
+    <div class="case-section reveal">
+      <h2>Patents</h2>
+      <p>Two patents were filed out of the work on this platform — one covering the categorization system, one covering the model-training feedback loop.</p>
+      <div class="link-list reveal-group">
+        <span class="patent-item">
+          <span class="patent-name">Context-Classified Transaction Categorization (Multi-Model)</span>
+          <span class="patent-meta">System patent · Filed · IND202521127036</span>
+        </span>
+        <span class="patent-item">
+          <span class="patent-name">Automated Feedback for AI Model Training Using LLM</span>
+          <span class="patent-meta">Process patent · Filed · IND202521127035</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="case-section reveal">
+      <h2>Outcome</h2>
+      <p>The platform became core infrastructure for how lenders assess risk on IDfy's stack. In deployment with a personal-loan fintech, it processed roughly 80,000 new-to-credit applications a month without underwriter involvement, improved funnel conversion 1.5x through modular implementation, and cut analysis cost by around 40% via selective signal subscription.</p>
+    </div>
+
+    <div class="case-section reveal" id="materials">
+      <h2>Materials</h2>
+      <div class="link-list reveal-group">
+        <a href="../assets/decks/tip-deck.pptx">Transaction Intelligence Platform — product deck<span class="link-meta">PPTX · 16 MB</span></a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="wrap case-next">
+    <span class="case-next-label">Next</span>
+    <a href="site-scan.html" class="case-next-name">Site Scan &rarr;</a>
+  </nav>
+</main>
+
+<script src="../js/main.js?v=4"></script>
+</body>
+</html>
