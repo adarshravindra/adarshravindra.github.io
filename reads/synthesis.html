@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Synthesis: Replicating your best employees — Adarsh Ravindra</title>
+<meta name="description" content="Project Synthesis: harvesting the workflows and reasoning of a company's best employees, and making that organizational intelligence executable by AI agents.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Georgia,serif'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://adarshravindra.github.io/reads/synthesis.html">
+<meta name="theme-color" content="#FAFAF9">
+<meta name="author" content="Adarsh Ravindra">
+
+<!-- Open Graph / LinkedIn / WhatsApp -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://adarshravindra.github.io/reads/synthesis.html">
+<meta property="og:title" content="Project Synthesis: Replicating your best employees">
+<meta property="og:description" content="Synthesis: harvesting the workflows and reasoning of a company's best employees, and making that organizational intelligence executable by AI agents.">
+<meta property="og:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Adarsh Ravindra">
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Project Synthesis: Replicating your best employees">
+<meta name="twitter:description" content="Synthesis: harvesting the workflows and reasoning of a company's best employees, and making that organizational intelligence executable by AI agents.">
+<meta name="twitter:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../css/style.css?v=13">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav scrolled">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Adarsh Ravindra</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <header class="wrap case-header">
+    <a href="../index.html#work" class="case-back">&larr; Back to reads</a>
+    <h1 class="case-title">Project Synthesis</h1>
+    <p class="case-subtitle">Replicating your best employees</p>
+    <p class="case-meta">Formerly OrgMind &middot; June 2026 &mdash; research started</p>
+  </header>
+
+  <div class="wrap article-layout">
+
+    <!-- Jump table -->
+    <aside class="toc" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav>
+        <a href="#thesis" class="toc-link is-active">The Thesis</a>
+        <a href="#product" class="toc-link">The Product</a>
+        <a href="#architecture" class="toc-link">The Architecture</a>
+        <a href="#landscape" class="toc-link">Landscape &amp; Next</a>
+      </nav>
+    </aside>
+
+    <article class="article-body">
+
+      <p class="case-lede">An endpoint-native system that harvests the reasoning and workflows of a company's best employees, builds continuously learning personas, and deploys them as organization-specific agents &mdash; so institutional knowledge never walks out the door.</p>
+
+      <p class="note">
+        <strong>Research in progress.</strong> Shaped by ongoing conversations with research and product managers working on this problem at companies including Cursor and Meta. Findings and architecture are evolving as the work continues.
+      </p>
+
+      <!-- ===================== 1. THESIS ===================== -->
+      <section id="thesis" class="doc-section">
+        <h2>The Thesis</h2>
+
+        <p>AI agents deployed in enterprises today are generic. They have no memory of how a company operates, no understanding of the judgment calls its best people make, and no way to replicate the reasoning that makes top performers effective. Prompting alone does not solve this, and RAG alone does not solve it either.</p>
+
+        <p>The fix is harvesting the actual workflows, reasoning patterns, and data dependencies of a company's best employees, then making that organizational intelligence executable.</p>
+
+        <h3>Core assumptions</h3>
+        <ul>
+          <li>Agents working alone are generic and not tailored to how a specific organization operates.</li>
+          <li>No end-to-end tools exist today that generate org-level context from real employee workflow behaviour.</li>
+          <li>The objective is to capture workflows and map thought structure &mdash; <em>supermemory harvesting</em> &mdash; so LLM-powered agents can replicate a company's best performing employees and keep learning from them.</li>
+          <li>The supermemory is harvested directly from endpoint software logs, processed locally and in the cloud, and used to build workflow maps, reasoning traces, and deployable personas.</li>
+        </ul>
+
+        <h3>Where each assumption stands</h3>
+        <div class="table-scroll">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Assumption</th><th>Verdict</th><th>Evidence</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Workflows differ company to company</td>
+                <td><span class="verdict">Validated</span></td>
+                <td>The process mining industry exists because of this. The same nominal process executes differently across companies, teams, and regions.</td>
+              </tr>
+              <tr>
+                <td>Context-rich agents beat generic agents</td>
+                <td><span class="verdict">Validated</span></td>
+                <td>Memory-augmented agents perform roughly 40% better on enterprise tasks (Microsoft Research). Domain-specific agents are the fastest growing architecture segment, around 63% CAGR.</td>
+              </tr>
+              <tr>
+                <td>No data tools exist for org-level workflow context</td>
+                <td><span class="verdict">Partial</span></td>
+                <td>Task mining tools such as Mimica, Soroco, and UiPath already capture endpoint data, but they output process maps for RPA consultants, not LLM personas. The bridge does not exist.</td>
+              </tr>
+              <tr>
+                <td>Actuation tools are not agent-ready</td>
+                <td><span class="verdict">Mostly solved</span></td>
+                <td>MCP is now the de facto standard: 97M monthly SDK downloads, over 10,000 servers, and 28% of Fortune 500 companies in production. The bottleneck has shifted from connectivity to context.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================== 2. PRODUCT ===================== -->
+      <section id="product" class="doc-section">
+        <h2>The Product</h2>
+
+        <p>Generic AI agents fail in enterprise because they have no idea how a specific company actually works. Project Synthesis fixes that at the source.</p>
+
+        <h3>Against the alternatives</h3>
+        <div class="table-scroll">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Dimension</th><th>Mimica</th><th>Viven</th><th>Generic RAG</th><th>Synthesis</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Captures</td><td>Clicks, keystrokes</td><td>Emails, Slack, docs</td><td>Nothing</td><td>Clicks, keystrokes, reasoning, comms, data dependencies</td></tr>
+              <tr><td>Output</td><td>Process map, static</td><td>Avatar or Q&amp;A twin</td><td>Prompted output</td><td>Living, learning persona</td></tr>
+              <tr><td>Feeds into</td><td>RPA consultant</td><td>Interface replacement</td><td>Generic task</td><td>Cross-functional LLM agent</td></tr>
+              <tr><td>Learns continuously</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr>
+              <tr><td>Captures <em>why</em></td><td>No</td><td>Partial</td><td>No</td><td>Yes</td></tr>
+              <tr><td>Data dependencies</td><td>No</td><td>No</td><td>No</td><td>Yes, via the Data Lane</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================== 3. ARCHITECTURE ===================== -->
+      <section id="architecture" class="doc-section">
+        <h2>The Architecture</h2>
+
+        <p>A complete pipeline from raw employee activity to executable AI personas. Four layers, each building on the one before it.</p>
+
+        <figure class="diagram">
+          <div class="diagram-scroll">
+            <svg viewBox="0 0 960 560" role="img" aria-labelledby="dg-title dg-desc" xmlns="http://www.w3.org/2000/svg">
+              <title id="dg-title">Four layers turn raw activity into deployable personas</title>
+              <desc id="dg-desc">The Endpoint Capture Agent feeds both the Supermemory Pipeline and the Data Lane. The Supermemory Pipeline and the Data Lane both feed Agent Deployment.</desc>
+
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path class="dg-head" d="M 0 0 L 10 5 L 0 10 z"/>
+                </marker>
+              </defs>
+
+              <!-- connectors first, so boxes sit on top -->
+              <path class="dg-line" d="M 390 112 L 390 204" marker-end="url(#arrow)"/>
+              <path class="dg-line" d="M 598 112 L 770 203" marker-end="url(#arrow)"/>
+              <path class="dg-line" d="M 390 316 L 390 396" marker-end="url(#arrow)"/>
+              <path class="dg-line" d="M 810 316 L 810 456 L 660 456" marker-end="url(#arrow)"/>
+
+              <!-- Layer 1 -->
+              <rect class="dg-box" x="160" y="24" width="460" height="88" rx="10"/>
+              <text class="dg-title" x="390" y="60" text-anchor="middle">Endpoint Capture Agent</text>
+              <text class="dg-sub" x="390" y="86" text-anchor="middle">Screenshots, keystrokes, clipboard, comms context</text>
+
+              <!-- Layer 2, emphasised: core IP -->
+              <rect class="dg-box dg-box-emph" x="160" y="212" width="460" height="104" rx="10"/>
+              <text class="dg-title" x="390" y="248" text-anchor="middle">Supermemory Pipeline</text>
+              <text class="dg-sub" x="390" y="274" text-anchor="middle">Segmentation, encoding, consolidation</text>
+              <text class="dg-sub" x="390" y="296" text-anchor="middle">Episodic, semantic, procedural memory</text>
+
+              <!-- Layer 4, parallel track -->
+              <rect class="dg-box" x="680" y="212" width="260" height="104" rx="10"/>
+              <text class="dg-title" x="810" y="248" text-anchor="middle">Data Lane</text>
+              <text class="dg-sub" x="810" y="274" text-anchor="middle">File and folder fingerprints</text>
+              <text class="dg-sub" x="810" y="296" text-anchor="middle">per workflow episode</text>
+
+              <!-- Layer 3 -->
+              <rect class="dg-box" x="130" y="404" width="520" height="104" rx="10"/>
+              <text class="dg-title" x="390" y="440" text-anchor="middle">Agent Deployment</text>
+              <text class="dg-sub" x="390" y="466" text-anchor="middle">Hybrid GraphRAG retrieval, LLM backbone</text>
+              <text class="dg-sub" x="390" y="488" text-anchor="middle">MCP and computer-use actuation</text>
+            </svg>
+          </div>
+          <figcaption>Four layers turn raw activity into deployable personas.</figcaption>
+        </figure>
+
+        <h3>Layer 1 &mdash; Endpoint Capture Agent</h3>
+        <p>The proprietary data moat. A lightweight background daemon on employee machines, event-triggered rather than continuous.</p>
+
+        <p><strong>What it captures:</strong> screenshots at application-switch events and form submissions, keystroke sequences and clipboard content within active workflow windows, active window title plus application name and URL, Slack and Teams messages within five minutes of each action, file open and close events with metadata, and time on task per application segment.</p>
+
+        <p><strong>What it excludes:</strong> passwords, banking fields, and HR records &mdash; redacted on device before anything leaves the machine &mdash; plus camera, microphone, anything outside work hours, and anything the employee pauses the recorder for.</p>
+
+        <div class="table-scroll">
+          <table class="doc-table">
+            <thead><tr><th>Component</th><th>Technology</th></tr></thead>
+            <tbody>
+              <tr><td>Windows UI events</td><td>Windows UI Automation API + pywin32</td></tr>
+              <tr><td>macOS UI events</td><td>macOS Accessibility API + Quartz Event Tap</td></tr>
+              <tr><td>Screen capture</td><td>mss, a fast Python screenshot library</td></tr>
+              <tr><td>PII redaction</td><td>Microsoft Presidio, runs fully on device</td></tr>
+              <tr><td>Local pre-processing</td><td>ONNX Runtime classifier, filters noise before upload</td></tr>
+              <tr><td>Transport</td><td>Encrypted gRPC stream, batched every 15 minutes</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Layer 2 &mdash; Supermemory Pipeline <span class="h-note">core IP</span></h3>
+        <p>Where raw captured data becomes structured thought maps. Four stages, and this is where the research contribution lives.</p>
+
+        <p><strong>Stage 1, event segmentation.</strong> Raw events are chunked into workflow episodes &mdash; a complete task from start to finish &mdash; using a fine-tuned DeBERTa or Mistral model that reads application-switch patterns and communication events as natural boundaries.</p>
+
+        <p><strong>Stage 2, multimodal encoding.</strong> Each episode produces an action trace in structured JSON (what happened), screenshot embeddings via CLIP or LLaVA (what was on screen), and text context from surrounding communication (why it happened).</p>
+
+        <p><strong>Stage 3, memory consolidation.</strong> The core research question: when does an episodic record graduate to semantic status, and when does a semantic fact get reinstated into working memory for a new task?</p>
+
+        <div class="table-scroll">
+          <table class="doc-table">
+            <thead><tr><th>Memory tier</th><th>What it stores</th><th>Storage</th></tr></thead>
+            <tbody>
+              <tr><td>Episodic</td><td>Raw episodes, timestamped, full context, never summarized at write time</td><td>PostgreSQL + pgvector</td></tr>
+              <tr><td>Semantic</td><td>Abstracted patterns from repeated episodes, extracted nightly by an LLM job</td><td>Neo4j knowledge graph</td></tr>
+              <tr><td>Procedural</td><td>Reusable workflow templates from the highest performing episodes</td><td>PostgreSQL, versioned JSON</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Stage 4, persona synthesis.</strong> The three tiers combine into a Persona Card per employee or role archetype, holding role context, tool proficiency, decision patterns, communication style, the top 20 workflow templates, and the anomaly patterns that distinguish this person from peers.</p>
+
+        <h3>Layer 3 &mdash; Agent Deployment</h3>
+        <p>The synthesized persona runs as an org-specific LLM agent using hybrid retrieval. At query time it performs three-stage fusion retrieval: dense vector search over episodic memory, graph traversal over semantic memory, and a procedural lookup for a matching workflow template, merged by reciprocal rank fusion.</p>
+
+        <p>Claude Sonnet or Opus handles reasoning-heavy tasks; a fine-tuned Llama 3.1 8B or Mistral 7B handles high-frequency, low-stakes ones, orchestrated with LangGraph, which injects the persona's procedural memory as the starting state.</p>
+
+        <p>Actuation runs through MCP-native tools for Salesforce, Slack, Jira, HubSpot, and GitHub, with computer-use fallback for GUI-only legacy tools and human-in-the-loop above a configurable confidence threshold. Agent actions log back into the episodic store, so the persona improves weekly.</p>
+
+        <h3>Layer 4 &mdash; The Data Lane</h3>
+        <p>A parallel track alongside the Supermemory Pipeline, not inside it, mapping exactly which files, folders, and storage locations were touched, in what sequence, during each episode.</p>
+
+        <p>Three uses: employee knowledge transfer through an auto-generated KT Pack showing which files a role needs and in what order; retrospective analysis that traces which file versions actually fed a decision; and agentic real-time data fetching, where an agent queries the Data Lane index instead of guessing.</p>
+
+        <p>A sample fingerprint, for a content writer drafting a campaign brief:</p>
+
+        <pre class="code-block"><code>t=0:00   Shared/Templates/Campaign_Brief_v3.docx      READ
+t=0:45   Shared/Research/Competitor_Analysis_Q2.xlsx  READ
+t=1:20   Personal/Drafts/Campaign_Draft_Aug.docx      READ + WRITE
+t=3:10   pasted content from Competitor_Analysis_Q2.xlsx
+t=4:30   Shared/Campaigns/Q3/Brief_Final_v1.docx      CREATE
+t=4:35   attached Brief_Final_v1.docx to Slack</code></pre>
+
+        <p>The fingerprint is always stored with its episode, never separately. A permissions mirror checks the persona's access rights before any runtime fetch, so an agent never escalates beyond what the original employee could see.</p>
+
+        <h3>Three capture walkthroughs</h3>
+        <p>How the four-layer stack behaves day by day, across three functionally distinct roles.</p>
+
+        <h4>Maya &mdash; Marketing Researcher</h4>
+        <p>Monday, 9:05: a GTM lead Slacks a request for a competitor pricing teardown by Thursday. The trigger message anchors the episode as comms context. She opens six competitor tabs, logs a read on <code>Competitor_Tracker.xlsx</code>, then Slacks pre-sales to ask what the prospect said about this pricing on the call &mdash; a verification habit captured only because comms are in scope. She reads the Gong transcript, copies quotes across, and drafts a doc flagging that the battle card is stale.</p>
+
+        <p>Over ten days, four more competitor research episodes recur. Nightly consolidation notices the shared shape and writes semantic edges: Maya always checks Gong before asserting a competitor claim, reaching 0.94 confidence by day ten; pricing strategy questions get delegated to the product marketing manager rather than answered solo.</p>
+
+        <p><strong>What crystallizes:</strong> a Competitive Intelligence Request template. The Gong verification step and the delegation rule live entirely in comms and reasoning context &mdash; a click recorder alone would never surface either.</p>
+
+        <h4>Rohan &mdash; Pre-Sales Solutions Engineer</h4>
+        <p>An account executive forwards a 140-question RFP due in eight days. Rohan opens it beside <code>Answer_Library.xlsx</code>, a 900-row master reference the Data Lane logs every single time as the highest-centrality file in his subgraph. The core loop repeats around 40 times: read question, search library, reuse ~70%, adapt ~20%, escalate ~10%.</p>
+
+        <p>He Slacks the security channel to own six SOC2 and data-residency questions &mdash; an explicit escalation boundary, never answered solo. When product gives a roadmap answer, he rewrites <em>will ship Q3</em> to <em>targeted for second half</em> before pasting. That clipboard-in versus keystroke-out diff exposes a systematic de-risking habit invisible to any process mining tool.</p>
+
+        <p>On day 5 the demo environment fails an hour before a call: he checks status, pings on-call, spins a backup org from snapshot, and emails a fallback plan. Low frequency, high value &mdash; tagged as an exception branch rather than averaged away.</p>
+
+        <h4>Priya &mdash; FP&amp;A Analyst</h4>
+        <p>A deliberately different shape: no inbound message triggers this episode, so segmentation keys off a date plus tool pattern instead. Day 1 of close runs an identical export chain every month. By month three the Data Lane confidence on this chain approaches 1.0, making it a near fully automatable sequence.</p>
+
+        <p>When a revenue number looks off, the diagnostic order &mdash; compare to last month, check the source contract, Slack billing ops &mdash; is what gets harvested, not just the fix. And across six closes, a $40,000 dispute booked as a reserve reveals an implicit materiality threshold nobody had written down: under about $50,000, reserve and note; above it, escalate before booking.</p>
+
+        <p><strong>What this adds:</strong> monthly cadence means slow episode accumulation, 12 per year rather than dozens per month. Promotion thresholds in Stage 3 must therefore be cadence-relative rather than a fixed occurrence count.</p>
+
+        <h4>What the three establish</h4>
+        <ul>
+          <li>Interleaving is the default. Segmentation is really thread disentanglement, not simple time slicing.</li>
+          <li>The <em>why</em> lives in four places: trigger messages, mid-task questions to colleagues, clipboard-in versus keystroke-out deltas, and completion notes. Miss any one and the system degrades to a click log.</li>
+          <li>Confidence is earned per edge, not per persona, and gates autonomous action versus draft-for-review.</li>
+          <li>Anomaly episodes must be protected from being averaged away by routine ones.</li>
+          <li>Consent-driven gaps are a feature of the privacy design, not a data quality flaw.</li>
+        </ul>
+
+        <h3>Complete stack</h3>
+        <div class="table-scroll">
+          <table class="doc-table">
+            <thead><tr><th>Layer</th><th>Component</th><th>Technology</th></tr></thead>
+            <tbody>
+              <tr><td>Capture</td><td>Windows UI</td><td>Windows UI Automation API + pywin32</td></tr>
+              <tr><td>Capture</td><td>macOS UI</td><td>macOS Accessibility API + Quartz Event Tap</td></tr>
+              <tr><td>Capture</td><td>Screen</td><td>mss, Python</td></tr>
+              <tr><td>Capture</td><td>PII redaction</td><td>Microsoft Presidio, on device</td></tr>
+              <tr><td>Capture</td><td>Transport</td><td>Encrypted gRPC, batched every 15 min</td></tr>
+              <tr><td>Supermemory</td><td>Segmentation</td><td>Fine-tuned DeBERTa v3 or Mistral 7B</td></tr>
+              <tr><td>Supermemory</td><td>Screenshot encoding</td><td>LLaVA 1.6 or CLIP</td></tr>
+              <tr><td>Supermemory</td><td>Episodic store</td><td>PostgreSQL + pgvector</td></tr>
+              <tr><td>Supermemory</td><td>Semantic store</td><td>Neo4j knowledge graph</td></tr>
+              <tr><td>Supermemory</td><td>Procedural store</td><td>PostgreSQL, versioned JSON</td></tr>
+              <tr><td>Agent</td><td>Retrieval</td><td>Hybrid GraphRAG + RRF re-ranking</td></tr>
+              <tr><td>Agent</td><td>Reasoning LLM</td><td>Claude Opus or Sonnet</td></tr>
+              <tr><td>Agent</td><td>Orchestration</td><td>LangGraph</td></tr>
+              <tr><td>Agent</td><td>Actuation</td><td>MCP servers; computer-use for legacy</td></tr>
+              <tr><td>Data Lane</td><td>File monitoring</td><td>watchdog + OS kernel hooks + cloud webhooks</td></tr>
+              <tr><td>Data Lane</td><td>File graph</td><td>Neo4j</td></tr>
+              <tr><td>Data Lane</td><td>KT Pack generation</td><td>LangGraph + Claude Sonnet</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================== 4. LANDSCAPE ===================== -->
+      <section id="landscape" class="doc-section">
+        <h2>Landscape &amp; Next</h2>
+
+        <h3>Mimica &mdash; task mining market leader</h3>
+        <p>The most important competitor to understand, and the clearest proof that the capture layer works and enterprises will pay for it. Mimica installs an endpoint recorder, observes desktop activity for one to two weeks, and produces a BPMN-style process map ranked by automation potential.</p>
+
+        <p>$32.2M raised total, with a $26.2M round in September 2025. Fortune 100 customers include DHL, Liberty Mutual, Merck, and Goodyear. Named a leader in task mining by Gartner and Everest Group in 2025, and actively developing an agentic layer &mdash; attempting to cross the same bridge.</p>
+
+        <p><strong>The openings:</strong> the recorder only runs on Windows, an instant gap for product, design, and marketing teams on Mac. Miner-to-Mapper still requires analyst effort, so it is not a closed loop. It captures what happened, not why. Its output goes to an RPA consultant, not a continuously learning persona. And it has no Data Lane equivalent.</p>
+
+        <h3>Viven &mdash; employee digital twins</h3>
+        <p>Builds employee avatars from emails, Slack, documents, and meetings &mdash; the closest startup to the concept. The key gap: Viven tells you what people <em>said</em>. Synthesis tells you what they <em>did</em>, why they did it, and what data they needed. Communications data is descriptive; endpoint workflow data is executable.</p>
+
+        <h3>Meta's Model Capability Initiative</h3>
+        <p>In April 2026 Meta announced it is recording employee screens, clicks, and keystrokes to train AI agents for white-collar work &mdash; structurally identical to the Synthesis capture layer. This validates the approach at the highest level of technical credibility. The hostile press and employee backlash Meta received is exactly the risk Synthesis designs around.</p>
+
+        <h3>Privacy architecture</h3>
+        <p>Privacy is not a compliance checkbox, it is the primary adoption risk &mdash; and if designed correctly it becomes the primary go-to-market wedge. Meta's program failed in the press because it was imposed without consent. Synthesis is designed from day one as the opt-in, employee-controlled alternative.</p>
+
+        <p>All PII redaction happens on device before any data leaves the machine. Employees see exactly what is being recorded through a local real-time dashboard. They can pause recording at any time with no manager visibility into pause frequency. Data stays in the organization's own cloud tenant.</p>
+
+        <div class="table-scroll">
+          <table class="doc-table">
+            <thead><tr><th>Jurisdiction</th><th>Framework</th></tr></thead>
+            <tbody>
+              <tr><td>EU &mdash; GDPR</td><td>Works council consultation required before deployment; data minimization enforced at the capture layer; purpose limitation strictly defined</td></tr>
+              <tr><td>California &mdash; CCPA</td><td>Right to know, delete, and opt out, with a built-in opt-out mechanism and deletion workflow</td></tr>
+              <tr><td>US &mdash; federal</td><td>Default opt-in with right to delete; consent captured during onboarding; data use limited to the stated purpose</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Why it compounds</h3>
+        <p>Each new employee onboarded increases the fidelity of the supermemory. Cross-functional personas learn from adjacent roles &mdash; a sales manager can discover better processes from marketing workflows. The continuous learning loop feeds agent actions back into the episodic store, improving personas weekly. The longer an organization runs Synthesis, the higher the switching cost.</p>
+
+        <p>The workflow corpus is proprietary to each organization and not purchasable from a third party. Personas encode company-specific decision patterns that generic models cannot acquire from public data. The Data Lane creates a file-level dependency map unique to each organization's folder structure and tooling.</p>
+
+        <h3>Why this matters</h3>
+        <p>The core problem in enterprise AI is not capability, it is context. Enterprises deploy AI and watch it fail, not because the models are bad, but because the AI has no idea how the company actually operates. Generic prompting does not scale, and RAG treats all documents as equally relevant without understanding the behavioural patterns behind which documents matter and when.</p>
+
+        <p>Synthesis makes organizational intelligence &mdash; workflows, reasoning patterns, data dependencies, tribal knowledge &mdash; into an executable asset that AI inherits at runtime. The personas it builds preserve institutional knowledge when people leave, onboard new hires faster, let organizations scale their best performers' judgment across functions, and evolve continuously by learning from every action they take.</p>
+
+        <p class="closing-line">This is the bridge between training an AI and building an AI that does what the organization actually does.</p>
+      </section>
+
+    </article>
+  </div>
+
+  <nav class="wrap case-next">
+    <span class="case-next-label">Back</span>
+    <a href="../index.html#work" class="case-next-name">All reads &rarr;</a>
+  </nav>
+</main>
+
+<script src="../js/main.js?v=13"></script>
+</body>
+</html>
