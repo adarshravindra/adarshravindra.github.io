@@ -179,6 +179,30 @@ img { max-width: 100%; }
   align-items: center;
   justify-content: center;
 }
+.intro-aside {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+/* Monochrome on purpose — LinkedIn blue would break the palette */
+.intro-linkedin {
+  color: var(--muted);
+  display: inline-flex;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+.intro-linkedin svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  display: block;
+}
+.intro-linkedin:hover {
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
 .intro-photo {
   flex: 0 0 auto;
   width: 148px;
@@ -209,7 +233,53 @@ img { max-width: 100%; }
   font-weight: 400;
   margin-bottom: 56px;
 }
-.work-list { border-top: 1px solid var(--divider); }
+/* Section switch — the heading itself is the control.
+   Active reads in --text, inactive in --muted. No new colours, no chrome. */
+/* Its own scale: the switch carries far more text than a one-word heading,
+   so it sits below .work-title's size to keep clear of the container edge
+   (and to survive a wider fallback serif before the webfont loads). */
+.section-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+  font-size: clamp(2.25rem, 5.6vw, 4rem);
+  line-height: 1.12;
+}
+.switch-item {
+  font: inherit;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  line-height: inherit;
+  transition: color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.switch-item:hover { color: var(--text); }
+.switch-item.is-active { color: var(--text); cursor: default; }
+.switch-sep {
+  color: var(--muted);
+  opacity: 0.55;
+  padding: 0 0.42em;
+  user-select: none;
+}
+
+.reads-empty {
+  color: var(--muted);
+  font-size: 15px;
+  padding: 30px 0;
+}
+
+/* Crossfade when switching panels */
+.work-list[hidden] { display: none; }
+.work-list.is-switching { opacity: 0; transform: translateY(8px); }
+.work-list {
+  border-top: 1px solid var(--divider);
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
 .work-row {
   display: block;
   border-bottom: 1px solid var(--divider);
@@ -349,7 +419,19 @@ img { max-width: 100%; }
   font-size: clamp(3rem, 7vw, 5rem);
   line-height: 1.08;
   margin-bottom: 16px;
+  /* keeps a long title from orphaning its last word on a line of its own */
+  text-wrap: balance;
 }
+/* Sits between the big serif name and the small muted meta line */
+.case-subtitle {
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--text);
+  max-width: 28ch;
+  margin-bottom: 14px;
+}
+
 .case-meta {
   color: var(--muted);
   font-size: 14px;
@@ -526,11 +608,230 @@ img { max-width: 100%; }
   .intro { padding: 100px 0; }
   .intro-inner { flex-direction: column; align-items: flex-start; gap: 32px; }
   .intro-photo { width: 120px; height: 120px; }
+  /* Stack the switch rather than wrapping it and leaving the "·" dangling */
+  .section-switch { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .switch-sep { display: none; }
   .work-row-top { flex-direction: column; align-items: flex-start; gap: 6px; }
   .work-tag { white-space: normal; }
   .nav-links { gap: 18px; }
   .case-header { padding-top: 130px; }
   .case-next { flex-direction: column; gap: 8px; }
+}
+
+/* ---------- Article pages (reads) ---------- */
+.article-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 72px;
+  align-items: start;
+  padding-bottom: 120px;
+}
+/* The TOC comes first in the source (better for screen readers) but sits in
+   the right-hand column visually, so the columns are assigned explicitly. */
+.article-body {
+  grid-column: 1;
+  grid-row: 1;
+  max-width: 720px;
+  min-width: 0;
+}
+
+/* Jump table — sticky rail, same monochrome language as the rest */
+.toc {
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: 112px;
+  align-self: start;
+}
+.toc-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.75;
+  margin-bottom: 14px;
+}
+.toc nav { border-left: 1px solid var(--divider); }
+.toc-link {
+  display: block;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--muted);
+  padding: 9px 0 9px 16px;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.toc-link:hover { color: var(--text); }
+.toc-link.is-active {
+  color: var(--text);
+  border-left-color: var(--text);
+}
+
+/* Research-in-progress note */
+.note {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+  border-left: 2px solid var(--divider-strong);
+  padding: 2px 0 2px 20px;
+  margin: 0 0 56px;
+}
+.note strong { color: var(--text); font-weight: 600; }
+
+/* Section + heading rhythm inside an article */
+.doc-section { margin-top: 72px; scroll-margin-top: 104px; }
+.doc-section > h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 3.6vw, 2.6rem);
+  font-weight: 400;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--divider);
+}
+.doc-section h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 44px 0 16px;
+}
+.doc-section h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 32px 0 12px;
+}
+.h-note {
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-left: 10px;
+}
+.article-body p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.article-body ul { list-style: none; margin: 0 0 24px; }
+.article-body li {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  padding-left: 22px;
+  position: relative;
+  margin-bottom: 12px;
+}
+.article-body li::before {
+  content: "\2014";
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.article-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: rgba(17, 17, 17, 0.045);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.closing-line {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
+  line-height: 1.45;
+  margin-top: 36px;
+}
+
+/* Tables — hairlines only, no fills */
+.table-scroll { overflow-x: auto; margin: 0 0 28px; }
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.doc-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 16px 10px 0;
+  border-bottom: 1px solid var(--divider-strong);
+  white-space: nowrap;
+}
+.doc-table td {
+  padding: 14px 16px 14px 0;
+  border-bottom: 1px solid var(--divider);
+  vertical-align: top;
+}
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table td:first-child { font-weight: 500; }
+.verdict { white-space: nowrap; }
+
+/* Code / fingerprint block */
+.code-block {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.75;
+  background: rgba(17, 17, 17, 0.04);
+  border-left: 2px solid var(--divider-strong);
+  padding: 20px 22px;
+  margin: 0 0 24px;
+  overflow-x: auto;
+}
+.code-block code { background: none; padding: 0; font-size: inherit; }
+
+@media (max-width: 960px) {
+  /* Rail would crowd the text — drop to a single column */
+  .article-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .article-body { grid-column: 1; }
+  .toc { display: none; }
+}
+
+/* ---------- Architecture diagram (inline SVG, palette-driven) ---------- */
+.diagram { margin: 36px 0 32px; }
+.diagram-scroll { overflow-x: auto; }
+.diagram svg {
+  display: block;
+  width: 100%;
+  min-width: 620px;   /* below this the labels stop being legible, so scroll */
+  height: auto;
+}
+.dg-box {
+  fill: none;
+  stroke: var(--divider-strong);
+  stroke-width: 1.5;
+}
+/* Layer 2 is the core IP — weight, not colour, carries the emphasis */
+.dg-box-emph {
+  fill: rgba(17, 17, 17, 0.04);
+  stroke: var(--text);
+  stroke-width: 2;
+}
+.dg-title {
+  fill: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+.dg-sub {
+  fill: var(--muted);
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+.dg-line {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+.dg-head { fill: var(--muted); }
+.diagram figcaption {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 14px;
 }
 
 /* ---------- Respect reduced-motion preferences ---------- */
