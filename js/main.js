@@ -25,71 +25,109 @@ document.addEventListener('DOMContentLoaded', () => {
     el.classList.add('is-visible');
   };
 
-  // No observer support: show everything rather than hide it.
   if (!('IntersectionObserver' in window)) {
-    targets.forEach(reveal);
-    return;
+    targets.forEach(reveal);                 // no observer support: show everything
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          reveal(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+    targets.forEach((el) => observer.observe(el));
+
+    // Safety sweep: anything at or above the fold gets revealed regardless.
+    let ticking = false;
+    const sweep = () => {
+      ticking = false;
+      const limit = window.innerHeight * 0.94;
+      let remaining = false;
+      targets.forEach((el) => {
+        if (el.dataset.revealed) return;
+        if (el.getBoundingClientRect().top < limit) {
+          reveal(el);
+          observer.unobserve(el);
+        } else {
+          remaining = true;
+        }
+      });
+      if (!remaining) window.removeEventListener('scroll', onScrollSweep);
+    };
+    const onScrollSweep = () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(sweep); }
+    };
+    window.addEventListener('scroll', onScrollSweep, { passive: true });
+    window.addEventListener('resize', onScrollSweep, { passive: true });
+    sweep();
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        reveal(entry.target);
-        observer.unobserve(entry.target);
-      }
+  /* ---------- Jump table: highlight the section you're in ----------
+     Reads the links fresh each run, so when a panel switch swaps one
+     table of contents for another the spy follows it.                       */
+
+  const visibleTocLinks = () =>
+    Array.from(document.querySelectorAll('.toc nav:not([hidden]) .toc-link'));
+
+  let tocTicking = false;
+  const spy = () => {
+    tocTicking = false;
+    const links = visibleTocLinks();
+    if (!links.length) return;
+
+    const sections = links
+      .map((a) => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    const line = window.innerHeight * 0.3;
+    let current = sections[0];
+    sections.forEach((s) => {
+      if (s.getBoundingClientRect().top <= line) current = s;
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-
-  targets.forEach((el) => observer.observe(el));
-
-  // Safety sweep: anything at or above the fold gets revealed regardless.
-  let ticking = false;
-  const sweep = () => {
-    ticking = false;
-    const limit = window.innerHeight * 0.94;
-    let remaining = false;
-
-    targets.forEach((el) => {
-      if (el.dataset.revealed) return;
-      if (el.getBoundingClientRect().top < limit) {
-        reveal(el);
-        observer.unobserve(el);
-      } else {
-        remaining = true;
-      }
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+      current = sections[sections.length - 1];
+    }
+    links.forEach((a) => {
+      a.classList.toggle('is-active', a.getAttribute('href') === '#' + current.id);
     });
-
-    if (!remaining) window.removeEventListener('scroll', onScrollSweep);
   };
 
-  const onScrollSweep = () => {
-    if (!ticking) { ticking = true; requestAnimationFrame(sweep); }
-  };
+  if (document.querySelector('.toc-link')) {
+    window.addEventListener('scroll', () => {
+      if (!tocTicking) { tocTicking = true; requestAnimationFrame(spy); }
+    }, { passive: true });
+    window.addEventListener('resize', spy, { passive: true });
+    spy();
+  }
 
-  window.addEventListener('scroll', onScrollSweep, { passive: true });
-  window.addEventListener('resize', onScrollSweep, { passive: true });
-  sweep();  // catch whatever is already on screen at load
-
-  /* ---------- Work / Reads switch ---------- */
+  /* ---------- Section switches (Work/Research, Main/Annexure) ---------- */
 
   const switchItems = document.querySelectorAll('.switch-item');
 
   if (switchItems.length) {
-    const panels = {};
-    switchItems.forEach((btn) => {
-      panels[btn.id] = document.getElementById(btn.getAttribute('aria-controls'));
-    });
+    const panelFor = (btn) => document.getElementById(btn.getAttribute('aria-controls'));
 
     const activate = (btn) => {
       if (btn.classList.contains('is-active')) return;
-      const next = panels[btn.id];
-      const current = Object.values(panels).find((p) => p && !p.hidden);
+
+      const group = btn.closest('[role="tablist"]');
+      const siblings = Array.from(group.querySelectorAll('.switch-item'));
+      const next = panelFor(btn);
+      const current = siblings.map(panelFor).find((p) => p && !p.hidden);
       if (!next || next === current) return;
 
-      switchItems.forEach((b) => {
+      siblings.forEach((b) => {
         const on = b === btn;
         b.classList.toggle('is-active', on);
         b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+
+      // a panel may own a table of contents; swap it with the panel
+      document.querySelectorAll('[data-toc-for]').forEach((nav) => {
+        nav.hidden = nav.getAttribute('data-toc-for') !== next.id;
       });
 
       const show = () => {
@@ -100,15 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
         next.hidden = false;
         next.classList.add('is-switching');
 
-        // Let it paint hidden, then fade in. rAF gives the smooth result, but it
-        // is suspended in background tabs — the timer guarantees the panel can
-        // never be left stranded at opacity 0.
+        // rAF gives the smooth result but is suspended in background tabs;
+        // the timer guarantees the panel is never stranded at opacity 0.
         let done = false;
         const settle = () => {
           if (done) return;
           done = true;
           next.classList.remove('is-switching');
-          reveal(next);   // stagger the rows, same as a scroll reveal
+          reveal(next);
+          spy();                              // re-point the jump table
         };
         requestAnimationFrame(() => requestAnimationFrame(settle));
         setTimeout(settle, 80);
@@ -122,57 +160,40 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    // A link straight to #sources (inside the Annexure) must open that panel,
+    // otherwise the target sits in a hidden panel and the page looks empty.
+    const openPanelForHash = () => {
+      if (location.hash.length <= 1) return;
+      let target;
+      try { target = document.querySelector(location.hash); } catch (e) { return; }
+      const owner = target && target.closest('[role="tabpanel"]');
+      if (!owner || !owner.hidden) return;
+
+      const opener = Array.from(switchItems)
+        .find((b) => b.getAttribute('aria-controls') === owner.id);
+      if (!opener) return;
+
+      activate(opener);
+      setTimeout(() => target.scrollIntoView(), 360);
+    };
+
+    openPanelForHash();                       // deep link on arrival
+    window.addEventListener('hashchange', openPanelForHash);
+    window.addEventListener('load', openPanelForHash);  // hash applied late
+
     switchItems.forEach((btn) => {
       btn.addEventListener('click', () => activate(btn));
-      // left/right arrows move between the two, standard tablist behaviour
       btn.addEventListener('keydown', (e) => {
         if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
         e.preventDefault();
-        const list = Array.from(switchItems);
+        const group = btn.closest('[role="tablist"]');
+        const list = Array.from(group.querySelectorAll('.switch-item'));
         const i = list.indexOf(btn);
         const nextBtn = list[(i + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length];
         nextBtn.focus();
         activate(nextBtn);
       });
     });
-  }
-
-  /* ---------- Jump table: highlight the section you're in ---------- */
-
-  const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
-
-  if (tocLinks.length) {
-    const sections = tocLinks
-      .map((a) => document.querySelector(a.getAttribute('href')))
-      .filter(Boolean);
-
-    const setActive = (id) => {
-      tocLinks.forEach((a) => {
-        a.classList.toggle('is-active', a.getAttribute('href') === '#' + id);
-      });
-    };
-
-    let tocTicking = false;
-    const spy = () => {
-      tocTicking = false;
-      // the section whose top is closest to (but still above) the reading line
-      const line = window.innerHeight * 0.3;
-      let current = sections[0];
-      sections.forEach((s) => {
-        if (s.getBoundingClientRect().top <= line) current = s;
-      });
-      // at the very bottom, always light the last one
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
-        current = sections[sections.length - 1];
-      }
-      if (current) setActive(current.id);
-    };
-
-    window.addEventListener('scroll', () => {
-      if (!tocTicking) { tocTicking = true; requestAnimationFrame(spy); }
-    }, { passive: true });
-    window.addEventListener('resize', spy, { passive: true });
-    spy();
   }
 
   /* ---------- Nav hairline on scroll ---------- */
