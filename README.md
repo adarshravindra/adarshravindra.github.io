@@ -47,3 +47,4 @@ Link previews on LinkedIn/WhatsApp only render once these URLs match the real ho
 2. Optional: convert the `.pptx` decks to PDF so they preview in-browser instead of downloading.
 
 3. Project thumbnails for the work rows, if wanted.
+
