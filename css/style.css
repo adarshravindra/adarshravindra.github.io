@@ -834,6 +834,45 @@ img { max-width: 100%; }
   margin-top: 14px;
 }
 
+/* ---------- In-article Main / Annexure switch ---------- */
+.article-switch {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.2;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--divider);
+  margin-bottom: 8px;
+}
+/* panels hide via the hidden attribute */
+#panel-main[hidden], #panel-annexure[hidden] { display: none; }
+
+/* The first section inside a panel sits right under the switch */
+.article-body > div > .doc-section:first-child { margin-top: 40px; }
+
+/* Chart (monochrome: tone carries the series, not colour) */
+.ch-net  { fill: var(--muted); }
+.ch-bank { fill: var(--text); }
+.ch-axis { stroke: var(--divider-strong); stroke-width: 1; }
+.ch-label {
+  fill: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  text-anchor: end;
+}
+.ch-val {
+  fill: var(--muted);
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+.fig-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: -14px;
+}
+.source-list li { font-size: 0.98rem; }
+
 /* ---------- Respect reduced-motion preferences ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
