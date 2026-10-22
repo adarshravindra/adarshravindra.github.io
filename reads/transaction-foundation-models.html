@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Sides of the Same Coin — Adarsh Ravindra</title>
+<meta name="description" content="Network-built and bank-built transaction foundation models each see half of the same customer. What each solves alone, and what only becomes possible together.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Georgia,serif'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://adarshravindra.github.io/reads/transaction-foundation-models.html">
+<meta name="theme-color" content="#FAFAF9">
+<meta name="author" content="Adarsh Ravindra">
+
+<!-- Open Graph / LinkedIn / WhatsApp -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://adarshravindra.github.io/reads/transaction-foundation-models.html">
+<meta property="og:title" content="Two Sides of the Same Coin">
+<meta property="og:description" content="Network-built and bank-built transaction foundation models each see half of the same customer. What each solves alone, and what only becomes possible together.">
+<meta property="og:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Adarsh Ravindra">
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Two Sides of the Same Coin">
+<meta name="twitter:description" content="Network-built and bank-built transaction foundation models each see half of the same customer. What each solves alone, and what only becomes possible together.">
+<meta name="twitter:image" content="https://adarshravindra.github.io/assets/images/og-card.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../css/style.css?v=16">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav scrolled">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Adarsh Ravindra</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <header class="wrap case-header">
+    <a href="../index.html#work" class="case-back">&larr; Back to research</a>
+    <h1 class="case-title">Two Sides of the Same Coin</h1>
+    <p class="case-subtitle">Network-built and bank-built transaction foundation models</p>
+    <p class="case-meta">Working draft &middot; October 2026</p>
+  </header>
+
+  <div class="wrap article-layout">
+
+    <aside class="toc" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav data-toc-for="panel-main">
+        <a href="#argument" class="toc-link is-active">The argument</a>
+        <a href="#models" class="toc-link">What these models are</a>
+        <a href="#two-sides" class="toc-link">Two sides</a>
+        <a href="#combining" class="toc-link">Combining them</a>
+        <a href="#documents" class="toc-link">The document layer</a>
+        <a href="#advantage" class="toc-link">Advantage &amp; ownership</a>
+        <a href="#impact" class="toc-link">Impact &amp; what to do</a>
+      </nav>
+      <nav data-toc-for="panel-annexure" hidden>
+        <a href="#privacy" class="toc-link is-active">Privacy &amp; compliance</a>
+        <a href="#risks" class="toc-link">Risks &amp; limits</a>
+        <a href="#limits" class="toc-link">Limits of this piece</a>
+        <a href="#about" class="toc-link">About the author</a>
+        <a href="#sources" class="toc-link">Sources</a>
+      </nav>
+    </aside>
+
+    <article class="article-body">
+
+      <p class="case-lede">Banks, card networks and payment processors are all building foundation models trained on transactions rather than text. Each sees half of the same customer &mdash; and the largest gains come from combining them.</p>
+
+      <p class="note">
+        <strong>Working draft.</strong> Draws on published work from Stripe, Visa, Mastercard, Revolut and Nubank, on conversations with practitioners at institutions including JPMorgan and Razorpay, and on three years building a transaction intelligence platform. This is a first draft of my thinking, and I would genuinely like to hear where it is wrong.
+      </p>
+
+      <h2 class="section-switch article-switch" role="tablist" aria-label="Article section">
+        <button type="button" class="switch-item is-active" role="tab" aria-selected="true"  aria-controls="panel-main"     id="tab-main">Main</button><span class="switch-sep" aria-hidden="true">·</span><button type="button" class="switch-item" role="tab" aria-selected="false" aria-controls="panel-annexure" id="tab-annexure">Annexure</button>
+      </h2>
+
+      <!-- ============ MAIN ============ -->
+      <div id="panel-main" role="tabpanel" aria-labelledby="tab-main">
+
+        <section id="argument" class="doc-section">
+          <h2>The argument</h2>
+
+          <p>Over the past year and a half, a handful of large payment companies and digital banks have started training foundation models on transactions instead of text. The early results look interesting &mdash; from fraud detection rates jumping by dozens of points to credit models that outperform years of hand-tuned, probability-based work.</p>
+
+          <p>These models come from two very different kinds of institutions. Some sit on the payment rails between banks: card networks, processors and gateways. Others are banks that hold the customer's account. Most commentary treats them as one trend. The difference between them is the most useful way to understand what each model can and cannot do.</p>
+
+          <p>So this article asks three questions. What can a model built by a network do that one built by a bank cannot, and the reverse? Which problems does each solve on its own? And what becomes possible when the two are combined?</p>
+
+          <p>The short answer is that each institution sees one half of the same customer. Networks see behaviour broadly and in real time; banks see one customer deeply, including what happened next. Brought together, the two views compound rather than add &mdash; one plus one closer to eleven.</p>
+
+          <p>I also believe the documents borrowers hand to banks form a third view, and that advantage here stacks in three layers: pretraining data, outcome labels, and integration into decisions. Who should own which model follows from which layer a problem depends on.</p>
+
+          <h3>Approach and sources</h3>
+          <p>This piece leans on three things.</p>
+          <ul>
+            <li><strong>What has been published.</strong> Papers, engineering posts and interviews from the teams that have shipped or described these models, plus analyst research. Wherever there was a primary source, it was consumed, compared and connected.</li>
+            <li><strong>Conversations with practitioners.</strong> People at banks and payment companies, including but not limited to JPMorgan and Razorpay.</li>
+            <li><strong>What I built.</strong> Three and a half years building what we believe was the first transaction intelligence platform in its market. At its core are three small language models working in sequence, classifying and categorizing every transaction in depth. Statements, tax filings and annual statements go in; more than 300 decisioning signals come out. It is the source I know best, and the one most likely to bias me, so I flag it where it shapes a claim.</li>
+          </ul>
+
+          <p>Every company named here is cited from its own public papers, posts or interviews, as an example of what the field has learned rather than as a ranking. Where a limitation comes up, it belongs to a whole category of model, and in most cases the builders have pointed it out themselves.</p>
+        </section>
+
+        <section id="models" class="doc-section">
+          <h2>What these models are</h2>
+
+          <p>A transaction foundation model is trained on financial behaviour. It reads sequences of events &mdash; payments, deposits, transfers, logins &mdash; and learns what normally comes next.</p>
+
+          <p>Training needs no labels. The model hides parts of a customer's history and learns to fill them back in, or it learns to predict the next transaction. Revolut's PRAGMA does the first. Visa's TransactionGPT does the second.</p>
+
+          <p>What comes out is not an answer. It is an embedding: a compact numerical summary of how a card, a customer or a merchant behaves. Small, cheap models then sit on top and make the decisions that matter &mdash; is this fraud, will this loan be repaid, which product fits.</p>
+
+          <p>That design is the appeal. A large bank runs hundreds of separate models, each with its own features and pipeline. One shared model of behaviour with thin task heads on top removes much of that duplicated work. Stripe's Emily Sands described the effect well: once the shared embedding exists, a new model becomes <em>"a weekend project, not a quarter project."</em></p>
+
+          <h3>What has been published so far</h3>
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead><tr><th>Builder and model</th><th>Side</th><th>What it learns from</th><th>Published result</th></tr></thead>
+              <tbody>
+                <tr><td>Stripe, Payments Foundation Model</td><td>Network</td><td>Tens of billions of payments on Stripe; masked modelling, BERT style</td><td>Card testing detection up from 59% to 97%, decided in tens of milliseconds</td></tr>
+                <tr><td>Visa, TransactionGPT</td><td>Network</td><td>Cardholder and merchant histories; predicts the next transaction's timing, amount, merchant and category</td><td>Gains of 19.2% and 11.2% on two business metrics over production</td></tr>
+                <tr><td>Mastercard, large tabular model</td><td>Network</td><td>The transaction stream; method not disclosed</td><td>Early stage; results not yet published</td></tr>
+                <tr><td>Revolut, PRAGMA</td><td>Bank</td><td>24B events from 26M users in 111 countries, including app activity</td><td>Beat Revolut's task-specific models on all six tasks tested</td></tr>
+                <tr><td>Nubank, nuFormer</td><td>Bank</td><td>Transaction sequences with their text descriptions, plus tabular features</td><td>In production for credit, fraud, income and recommendation; no figures published</td></tr>
+                <tr><td>FICO, transaction sequence model</td><td>Vendor</td><td>Data pooled across many institutions</td><td>Offered to institutions that do not build their own</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="fig-note">JPMorgan, which sits on both sides, has not published a model I could find.</p>
+
+          <figure class="diagram">
+            <div class="diagram-scroll">
+              <svg viewBox="0 0 960 560" role="img" aria-labelledby="c1t c1d" xmlns="http://www.w3.org/2000/svg">
+                <title id="c1t">Every published result beats the builder's own previous model</title>
+                <desc id="c1d">Reported improvement over each builder's previous model. Stripe card testing 64.4 percent, Visa metric A 19.2, Visa metric B 11.2, Revolut credit 130.2, marketing 79.4, fraud 66.7, product recommendation 40.5, recurrent transactions 5.8, lifetime value 2.6.</desc>
+
+                <!-- legend -->
+                <rect class="ch-net"  x="360" y="26" width="26" height="13" rx="2"/>
+                <text class="dg-sub" x="396" y="37">Network built</text>
+                <rect class="ch-bank" x="530" y="26" width="26" height="13" rx="2"/>
+                <text class="dg-sub" x="566" y="37">Bank built</text>
+
+                <line class="ch-axis" x1="360" y1="76" x2="360" y2="520"/>
+
+                <!-- network built -->
+                <text class="ch-label" x="345" y="117">Stripe · Card testing</text>
+                <rect class="ch-net" x="360" y="99" width="247" height="22" rx="2"/>
+                <text class="ch-val" x="617" y="117">+64.4%</text>
+
+                <text class="ch-label" x="345" y="163">Visa · Business metric A</text>
+                <rect class="ch-net" x="360" y="145" width="74" height="22" rx="2"/>
+                <text class="ch-val" x="444" y="163">+19.2%</text>
+
+                <text class="ch-label" x="345" y="209">Visa · Business metric B</text>
+                <rect class="ch-net" x="360" y="191" width="43" height="22" rx="2"/>
+                <text class="ch-val" x="413" y="209">+11.2%</text>
+
+                <!-- bank built -->
+                <text class="ch-label" x="345" y="271">Revolut · Credit</text>
+                <rect class="ch-bank" x="360" y="253" width="500" height="22" rx="2"/>
+                <text class="ch-val" x="870" y="271">+130.2%</text>
+
+                <text class="ch-label" x="345" y="317">Revolut · Marketing comms</text>
+                <rect class="ch-bank" x="360" y="299" width="305" height="22" rx="2"/>
+                <text class="ch-val" x="675" y="317">+79.4%</text>
+
+                <text class="ch-label" x="345" y="363">Revolut · Fraud</text>
+                <rect class="ch-bank" x="360" y="345" width="256" height="22" rx="2"/>
+                <text class="ch-val" x="626" y="363">+66.7%</text>
+
+                <text class="ch-label" x="345" y="409">Revolut · Product rec.</text>
+                <rect class="ch-bank" x="360" y="391" width="156" height="22" rx="2"/>
+                <text class="ch-val" x="526" y="409">+40.5%</text>
+
+                <text class="ch-label" x="345" y="455">Revolut · Recurrent txns</text>
+                <rect class="ch-bank" x="360" y="437" width="22" height="22" rx="2"/>
+                <text class="ch-val" x="392" y="455">+5.8%</text>
+
+                <text class="ch-label" x="345" y="501">Revolut · Lifetime value</text>
+                <rect class="ch-bank" x="360" y="483" width="10" height="22" rx="2"/>
+                <text class="ch-val" x="380" y="501">+2.6%</text>
+              </svg>
+            </div>
+            <figcaption>Reported improvement over each builder's previous model. Not comparable across builders. Stripe's figure is computed from its reported detection rates; Visa's paper does not name its two business metrics. Nubank and Mastercard have not published comparable figures.</figcaption>
+          </figure>
+
+          <p>Two patterns stand out. Every published result beats the builder's own previous model, and the gains are uneven &mdash; largest where behaviour is complex, such as credit and coordinated attacks, and close to zero where simple features already work, such as spotting recurring payments.</p>
+
+          <p>Two caveats. Most of these figures are relative improvements published by the companies themselves, which is understandable given how commercially sensitive the absolute numbers are. And the clearest results so far come from fintechs and networks, not from traditional banks.</p>
+
+          <h3>One customer, three views</h3>
+          <p>Maya asks her bank for a higher credit limit. Two days later, most of her savings start moving to a payee she has never paid before. The figures below are illustrative; they do not come from any institution.</p>
+
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead><tr><th></th><th>Bank model alone</th><th>Network model alone</th><th>Both combined</th></tr></thead>
+              <tbody>
+                <tr><td>What it sees</td><td>Salary, rent, loan payments, balances, five years of on-time repayment</td><td>Spending on two cards from other issuers; the account receiving the transfer</td><td>Both views, exchanged as scores and embeddings rather than raw data</td></tr>
+                <tr><td>Credit output</td><td>Default risk 2.1% over 12 months; income about 6,500 a month</td><td>No income view; spending steady and mostly on essentials</td><td>Default risk 1.4%; spending confirms income is not stretched</td></tr>
+                <tr><td>Credit decision</td><td>Modest limit increase</td><td>Cannot decide alone</td><td>Larger increase, approved with confidence</td></tr>
+                <tr><td>Fraud output</td><td>New payee and savings drained: medium risk</td><td>Receiving account took similar sums from 12 banks this week: likely mule</td><td>Scam pattern on both sides: high risk</td></tr>
+                <tr><td>Fraud decision</td><td>Manual review queue, which may clear after the money is gone</td><td>A warning, but no hold on a payment it does not own</td><td>Pause the payment and call Maya first</td></tr>
+                <tr><td>Business result</td><td>Slower answer, smaller limit, likely loss</td><td>An insight nobody acts on in time</td><td>More good credit, a loss avoided, one call instead of a queue item</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Neither model alone gets both decisions right. Together they get both right &mdash; and the confirmed scam attempt becomes a label that trains both sides for the next customer.</p>
+        </section>
+
+        <section id="two-sides" class="doc-section">
+          <h2>Two sides</h2>
+
+          <p>By <em>network</em> I mean anyone who sits on the rails between institutions: card networks like Visa and Mastercard, processors and gateways like Stripe and Razorpay, and real-time payment rails. By <em>bank</em> I mean the institution that holds the account and the relationship.</p>
+
+          <p>Maya's salary lands in her bank account on the first of each month, rent leaves on the fifth, a car loan payment on the tenth. She pays for groceries, fuel and dinners with two credit cards, both issued by other banks.</p>
+
+          <p>Her bank sees the salary, the rent, the balance, the loan, and every payment she has ever made on time or missed. It sees very little of what she does on the two cards from other banks. The network sees every swipe on those cards and the merchants on the other side. It never sees her salary, her balance or her loan.</p>
+
+          <p>That is the shape of the whole argument. A bank knows a customer deeply but narrowly. A network knows behaviour broadly but shallowly. The foundation models each one builds inherit exactly that shape.</p>
+
+          <h3>What networks bring</h3>
+          <ul>
+            <li><strong>Breadth.</strong> Every card or account on their rails, across thousands of issuers, and every merchant on the other side.</li>
+            <li><strong>Speed.</strong> Their models sit in the payment path, so a decision has to land in milliseconds.</li>
+            <li><strong>The merchant's view.</strong> A merchant's entire stream of customers, refunds and disputes, not one customer's slice of it.</li>
+            <li><strong>Attacks as they spread.</strong> When a fraud ring moves from one bank to the next, the network sees the movement. Each bank sees only its own losses.</li>
+          </ul>
+
+          <p>What their models solve follows directly: coordinated attacks such as card testing, which Stripe's model reads as a shape in the sequence rather than a single bad transaction; expected behaviour, where a purchase far from prediction becomes a fraud signal before any rule fires; merchant risk and health; approval rates; and lifestyle proxies from merchant mix, ticket sizes and travel.</p>
+
+          <h3>What networks miss</h3>
+          <ul>
+            <li><strong>Inflows and balances.</strong> A network sees money leaving, rarely money arriving. It cannot estimate income.</li>
+            <li><strong>Outcomes.</strong> It does not see whether a loan was repaid, so it has few labels for credit.</li>
+            <li><strong>Anything off its rails.</strong> Cash, other payment rails and accounts it does not touch are invisible.</li>
+            <li><strong>The person.</strong> It mostly knows a token or a card number, not an identity.</li>
+          </ul>
+
+          <h3>What banks bring</h3>
+          <ul>
+            <li><strong>Inflows.</strong> Salary, deposits, business receipts &mdash; the money arriving, not just the money leaving.</li>
+            <li><strong>Balances and obligations.</strong> Loan payments, rent, standing instructions, overdraft use, the buffer someone keeps.</li>
+            <li><strong>Outcomes.</strong> Repaid or defaulted, accepted an offer or ignored it, disputed a charge, closed the account. Banks collect these labels for free, simply by operating.</li>
+            <li><strong>Identity and history.</strong> Verified customers, years of relationship, every product they hold.</li>
+            <li><strong>Behaviour beyond payments.</strong> PRAGMA learns from app logins, savings moves, card freezes and currency exchanges, not only transactions.</li>
+          </ul>
+
+          <p>So bank models lead on credit &mdash; underwriting, limit setting and pricing, which was PRAGMA's biggest gain over Revolut's dedicated models &mdash; along with income and affordability, early warning and collections, next-best product, and lifetime value.</p>
+
+          <h3>What banks miss</h3>
+          <ul>
+            <li><strong>Everything outside their walls.</strong> A customer with three banks shows each bank roughly a third of their life.</li>
+            <li><strong>Links between customers.</strong> A model of one customer at a time sees less of the patterns that live between people, which is where laundering happens. The PRAGMA authors acknowledge this; it applies to any model built one customer at a time.</li>
+            <li><strong>Speed.</strong> At many banks, data still arrives in overnight batches.</li>
+            <li><strong>Scale to pretrain.</strong> Only a few institutions have the data, talent and capital to pretrain from scratch. Most will fine-tune or buy.</li>
+            <li><strong>Reasons.</strong> A declined borrower is owed an explanation. An embedding does not give one on its own.</li>
+          </ul>
+
+          <h3>A comparison by problem</h3>
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead><tr><th>Problem</th><th>Network model</th><th>Bank model</th><th>Who leads</th></tr></thead>
+              <tbody>
+                <tr><td>Card fraud and coordinated attacks</td><td>Sees attacks spreading across issuers and merchants</td><td>Sees only its own cards and losses</td><td>Network</td></tr>
+                <tr><td>Merchant risk</td><td>Sees every merchant's full stream of payments, refunds and disputes</td><td>Sees merchants only as payees</td><td>Network</td></tr>
+                <tr><td>Credit underwriting</td><td>Spending stress signals, no repayment history</td><td>Income, obligations, repayment outcomes</td><td>Bank</td></tr>
+                <tr><td>Income</td><td>Almost nothing; sees spending, not inflows</td><td>Salary and deposit patterns</td><td>Bank</td></tr>
+                <tr><td>Affluence</td><td>How someone lives: merchants, travel, ticket sizes</td><td>What someone earns and keeps</td><td>Together</td></tr>
+                <tr><td>Authorized-push-payment scams</td><td>Where the money lands; whether that account is a known mule</td><td>The victim's behaviour shifting: new payee, savings drained</td><td>Together</td></tr>
+                <tr><td>Anti money laundering</td><td>Movement across banks, merchants and borders</td><td>One customer's flows and profile</td><td>Together</td></tr>
+                <tr><td>Agentic commerce</td><td>The agent's token, its mandate, its pattern across merchants</td><td>Whether the customer can afford what the agent buys</td><td>Together</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="combining" class="doc-section">
+          <h2>Combining them</h2>
+
+          <p>Put together, the two models do more than fill each other's gaps. The network brings breadth and speed; the bank brings depth and outcomes. That is why the gain compounds instead of adding up.</p>
+
+          <h3>Five things they solve together</h3>
+          <ul>
+            <li><strong>Scams the customer authorizes.</strong> The bank sees the victim's behaviour change. The rail sees the destination account collecting from many banks. Either signal alone is a guess; both together are a reason to pause the payment. In the UK, banks must now reimburse many of these losses, so this is a direct cost.</li>
+            <li><strong>Earning versus living.</strong> The bank knows what someone earns. The network knows how they live. High income with modest spending reads very differently from modest income with heavy spending.</li>
+            <li><strong>Thin files.</strong> A gig worker's inflows look lumpy to a bank. A network may show years of steady spending on essentials. Together that looks creditworthy; to either alone, it may not.</li>
+            <li><strong>Bust-out fraud.</strong> A customer quietly maxes out cards across several issuers before disappearing. The network sees the ramp across cards. The bank sees that income cannot support it.</li>
+            <li><strong>Agents as customers.</strong> The network can check the agent and its mandate. Only the bank knows whether the purchase is affordable.</li>
+          </ul>
+
+          <h3>Why it compounds</h3>
+          <p>The real multiplier is labels. Banks hold the outcomes: confirmed fraud, repayment, default. Networks hold early behaviour, often days to weeks before an outcome shows up.</p>
+
+          <p>A network model trained against bank outcomes learns what actually matters. A bank model fed network embeddings sees risk earlier. Better decisions produce cleaner outcomes, which train better models on both sides. That loop is where the eleven comes from.</p>
+
+          <figure class="diagram">
+            <div class="diagram-scroll">
+              <svg viewBox="0 0 960 600" role="img" aria-labelledby="c2t c2d" xmlns="http://www.w3.org/2000/svg">
+                <title id="c2t">Outcomes flow back as labels, so each side improves the other</title>
+                <desc id="c2d">The network model and the bank model both feed a joint decision. The decision produces outcomes, and those outcomes flow back as labels to both models.</desc>
+
+                <defs>
+                  <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path class="dg-head" d="M 0 0 L 10 5 L 0 10 z"/>
+                  </marker>
+                </defs>
+
+                <path class="dg-line" d="M 245 142 L 245 358 L 326 358" marker-end="url(#arrow2)"/>
+                <path class="dg-line" d="M 715 142 L 715 358 L 634 358" marker-end="url(#arrow2)"/>
+                <path class="dg-line" d="M 480 404 L 480 476" marker-end="url(#arrow2)"/>
+                <path class="dg-line" d="M 300 522 L 44 522 L 44 94 L 78 94" marker-end="url(#arrow2)"/>
+                <path class="dg-line" d="M 660 522 L 916 522 L 916 94 L 882 94" marker-end="url(#arrow2)"/>
+
+                <text class="dg-sub" x="256" y="250">embeddings and scores</text>
+                <text class="dg-sub" x="704" y="250" text-anchor="end">its own embedding</text>
+                <text class="dg-sub" x="492" y="448">what happened next</text>
+                <text class="dg-sub" x="56"  y="300">outcomes as labels</text>
+                <text class="dg-sub" x="904" y="300" text-anchor="end">outcomes as labels</text>
+
+                <rect class="dg-box" x="80" y="46" width="330" height="96" rx="10"/>
+                <text class="dg-title" x="245" y="82"  text-anchor="middle">Network model</text>
+                <text class="dg-sub"   x="245" y="106" text-anchor="middle">Sees behaviour across banks,</text>
+                <text class="dg-sub"   x="245" y="128" text-anchor="middle">in real time, at scale</text>
+
+                <rect class="dg-box" x="550" y="46" width="330" height="96" rx="10"/>
+                <text class="dg-title" x="715" y="82"  text-anchor="middle">Bank model</text>
+                <text class="dg-sub"   x="715" y="106" text-anchor="middle">Sees income, obligations</text>
+                <text class="dg-sub"   x="715" y="128" text-anchor="middle">and repayment history</text>
+
+                <rect class="dg-box" x="330" y="314" width="300" height="90" rx="10"/>
+                <text class="dg-title" x="480" y="350" text-anchor="middle">Joint decision</text>
+                <text class="dg-sub"   x="480" y="374" text-anchor="middle">approve, pause, price, set a limit</text>
+
+                <rect class="dg-box dg-box-emph" x="300" y="476" width="360" height="92" rx="10"/>
+                <text class="dg-title" x="480" y="512" text-anchor="middle">Outcomes</text>
+                <text class="dg-sub"   x="480" y="536" text-anchor="middle">confirmed fraud, repayment, default</text>
+              </svg>
+            </div>
+            <figcaption>Both views feed one decision, and what happens next trains both models for the following one.</figcaption>
+          </figure>
+
+          <p>Forrester makes a similar point from the bank's side: <em>"The true asset is not the model weights, which can quickly depreciate as new base models emerge, but the record of customer behaviors, actions, and outcomes that no vendor can replicate."</em> An engineer friend who builds these systems put it more bluntly: model quality depends less on who has more data and more on who can curate better data for the final training step. In both readings, the moat is outcomes.</p>
+
+          <h3>How it could work in practice</h3>
+          <p>Nobody is going to pool raw customer data, for privacy, competitive and regulatory reasons. The realistic version shares outputs, not inputs: scores and embeddings at decision time, outcomes flowing back under agreement, consent-based sharing through open banking and account aggregator frameworks, and federated training where pooling is not allowed at all.</p>
+
+          <h3>Agentic commerce</h3>
+          <p>Agentic commerce is the clearest case for combining the two views. An agent does not transact like a person &mdash; machine speed, no human signals, heavy comparison across merchants, precise purchases, many small payments, and delegated credentials with spending limits rather than a raw card number.</p>
+
+          <p>Today's fraud models would flag much of this. Speed, missing human signals and many small attempts are classic markers of card testing.</p>
+
+          <p>So the question changes. It is no longer <em>"is this a human?"</em> but <em>"is this agent acting within what the person allowed, and can the person afford it?"</em> The network can answer the first half. Only the bank can answer the second.</p>
+        </section>
+
+        <section id="documents" class="doc-section">
+          <h2>The document layer</h2>
+
+          <p>There is a third vantage point that the bank-versus-network debate tends to skip: the documents a borrower gives a bank or lending institution.</p>
+
+          <p>A lender usually sees a bank statement, often from a bank that is not its own, and sometimes credit card statements, tax filings and a company's annual statements. Each answers a different question. The bank statement shows what the money did. The card statement shows how someone spends and handles credit. The tax filing shows what they declared.</p>
+
+          <p>Read together, they show something neither a bank nor a network can see: the gap between what a borrower declares and what their money actually did, across every bank they use. When the documents disagree, the disagreement is itself a signal.</p>
+
+          <h3>A bank statement starts with a sentence</h3>
+          <p>Card networks start with clean fields: a merchant ID, a category code, an amount. A bank statement gives you a description line &mdash; a short string a core banking system wrote for a human to read. A few illustrative examples in the real format:</p>
+
+          <pre class="code-block"><code>ZELLE PAYMENT TO ANNA MILLER CONF# K7XQ2M RENT OCT
+ACH CREDIT JOHNSON SUPPLY CO PPD ID 9876543210 MATERIALS
+ONLINE TRANSFER FROM CHK ...4821 REF IB0Q7XZ2 R JOHNS
+POS DEBIT JOHNSONS DELI 1044 NEW YORK NY</code></pre>
+
+          <p>Names are cut at a fixed length, words split in the middle, and the same counterparty shows up five different ways. Before you can model behaviour, you have to work out who is on the other side of each line.</p>
+
+          <h3>Three small language models in sequence</h3>
+          <p>So we built three small language models that run one after another, each classifying more deeply than the one before. The first finds the counterparty inside the narration, along with any note the sender added. The second decides whether that counterparty is a person or a business. The third, for businesses, works out what kind: lender, utility, logistics, payment gateway, marketplace, fuel station.</p>
+
+          <p>The second step sounds trivial and is not. "Johnson Supply", "R Johnson" and "Johnsons Deli" look alike to a rule. That one decision changes whether a credit is income, a business receipt or money from family.</p>
+
+          <figure class="diagram">
+            <div class="diagram-scroll">
+              <svg viewBox="0 0 1120 500" role="img" aria-labelledby="c3t c3d" xmlns="http://www.w3.org/2000/svg">
+                <title id="c3t">Three small language models turn a narration into signals; an LLM finds patterns</title>
+                <desc id="c3d">A narration passes through counterparty, entity type and category models to produce 300-plus signals. A separate Llama 7B challenger reads many transactions at once and proposes patterns back into the three models.</desc>
+
+                <defs>
+                  <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path class="dg-head" d="M 0 0 L 10 5 L 0 10 z"/>
+                  </marker>
+                </defs>
+
+                <path class="dg-line" d="M 222 115 L 236 115" marker-end="url(#arrow3)"/>
+                <path class="dg-line" d="M 442 115 L 456 115" marker-end="url(#arrow3)"/>
+                <path class="dg-line" d="M 662 115 L 676 115" marker-end="url(#arrow3)"/>
+                <path class="dg-line" d="M 882 115 L 896 115" marker-end="url(#arrow3)"/>
+
+                <path class="dg-line" d="M 340 322 L 340 194" marker-end="url(#arrow3)"/>
+                <path class="dg-line" d="M 560 322 L 560 194" marker-end="url(#arrow3)"/>
+                <path class="dg-line" d="M 780 322 L 780 194" marker-end="url(#arrow3)"/>
+                <text class="dg-sub" x="800" y="276">patterns and new signals</text>
+
+                <rect class="dg-box" x="20" y="40" width="200" height="152" rx="10"/>
+                <text class="dg-title" x="120" y="78"  text-anchor="middle">Narration</text>
+                <text class="dg-sub"   x="120" y="104" text-anchor="middle">raw text from a</text>
+                <text class="dg-sub"   x="120" y="126" text-anchor="middle">bank statement</text>
+
+                <rect class="dg-box" x="240" y="40" width="200" height="152" rx="10"/>
+                <text class="dg-title" x="340" y="78"  text-anchor="middle">1 Counterparty</text>
+                <text class="dg-sub"   x="340" y="104" text-anchor="middle">who is on the</text>
+                <text class="dg-sub"   x="340" y="126" text-anchor="middle">other side, plus</text>
+                <text class="dg-sub"   x="340" y="148" text-anchor="middle">any note</text>
+
+                <rect class="dg-box" x="460" y="40" width="200" height="152" rx="10"/>
+                <text class="dg-title" x="560" y="78"  text-anchor="middle">2 Entity type</text>
+                <text class="dg-sub"   x="560" y="104" text-anchor="middle">person, or</text>
+                <text class="dg-sub"   x="560" y="126" text-anchor="middle">merchant and</text>
+                <text class="dg-sub"   x="560" y="148" text-anchor="middle">business</text>
+
+                <rect class="dg-box" x="680" y="40" width="200" height="152" rx="10"/>
+                <text class="dg-title" x="780" y="78"  text-anchor="middle">3 Category</text>
+                <text class="dg-sub"   x="780" y="104" text-anchor="middle">lender, utility,</text>
+                <text class="dg-sub"   x="780" y="126" text-anchor="middle">logistics, fuel</text>
+
+                <rect class="dg-box" x="900" y="40" width="200" height="152" rx="10"/>
+                <text class="dg-title" x="1000" y="78"  text-anchor="middle">300+ signals</text>
+                <text class="dg-sub"   x="1000" y="104" text-anchor="middle">income, risk,</text>
+                <text class="dg-sub"   x="1000" y="126" text-anchor="middle">fraud, cross sell,</text>
+                <text class="dg-sub"   x="1000" y="148" text-anchor="middle">upsell</text>
+
+                <rect class="dg-box dg-box-emph" x="240" y="324" width="620" height="120" rx="10"/>
+                <text class="dg-title" x="550" y="364" text-anchor="middle">Champion challenger: Llama 7B</text>
+                <text class="dg-sub"   x="550" y="390" text-anchor="middle">reads many transactions at once and only finds patterns;</text>
+                <text class="dg-sub"   x="550" y="412" text-anchor="middle">it never categorizes, it proposes training examples</text>
+              </svg>
+            </div>
+            <figcaption>Each step narrows the next, so an error can be traced to the model that made it and each model can be retrained on its own.</figcaption>
+          </figure>
+
+          <h3>Meaning lives in the sequence</h3>
+          <p>The most useful thing the challenger taught us was that many signals do not exist in any single transaction. They only appear when you see many at once:</p>
+          <ul>
+            <li>The same amount to the same person around the same date for three months or more is rent.</li>
+            <li>Regular transfers to people who share your surname suggest family support.</li>
+            <li>Small, frequent fuel spends suggest a scooter or motorbike; larger fill-ups, a car.</li>
+            <li>Fewer than five counterparties in six months is a small-circle account, an early warning sign.</li>
+            <li>A large deposit from a person, 90% withdrawn within five days, suggests balance manipulation.</li>
+            <li>A new loan spent almost entirely within five days is loan burnout.</li>
+          </ul>
+
+          <p>Looking back, this was the foundation model idea in miniature. We used an LLM to find sequence patterns and then wrote them down as rules. A transaction foundation model learns those patterns directly, including the ones nobody thought to write down.</p>
+
+          <h3>What building it taught me</h3>
+          <ul>
+            <li><strong>The hard part comes before the model.</strong> Networks start with structured fields; institutions reading statements start with text. Resolving who is on the other side of each transaction is the real tokenization problem, and whoever solves it owns the input every later model needs.</li>
+            <li><strong>Hand-built signals are not obsolete.</strong> They are the syllabus and the exam. Three hundred signals describe what a foundation model should learn and give you a way to check that it did. They are also the reasons a lender gives when it says no.</li>
+            <li><strong>Counterparties fix the per-customer blind spot.</strong> A model built on resolved counterparties can see a network, not just a sequence.</li>
+            <li><strong>Labels are scarcer than compute.</strong> We saw millions of applications and rarely what happened after the loan. For anyone in the middle, the outcome loop exists only if lenders send repayment data back.</li>
+            <li><strong>Small and focused is enough.</strong> A 7B model was enough to find patterns worth turning into a product. PRAGMA's best fraud result came from its 100M parameter model, not its 1B one. This does not need a frontier lab budget.</li>
+          </ul>
+        </section>
+
+        <section id="advantage" class="doc-section">
+          <h2>Advantage &amp; ownership</h2>
+
+          <p>Advantage in this field stacks in three layers. The network-versus-bank question lives mostly in the first; who wins is decided by the second and third.</p>
+
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead><tr><th>Layer</th><th>What it decides</th><th>Networks</th><th>Banks</th></tr></thead>
+              <tbody>
+                <tr><td>1. Pretraining data</td><td>What the model can see at all</td><td>Breadth: every card and merchant on their rails, in real time</td><td>Depth: inflows, balances and app behaviour for their own customers</td></tr>
+                <tr><td>2. Outcome labels</td><td>How good the model gets at each task</td><td>Strong for fraud and disputes, weak for credit</td><td>Strong for credit, collections and engagement</td></tr>
+                <tr><td>3. Integration into decisions</td><td>Whether model quality turns into money</td><td>Inside the payment path, in milliseconds</td><td>Inside credit and relationship decisions, with reasons and model risk review</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>This helps settle a disagreement I kept running into. Engineers who build language models often argue that pretraining data barely matters, since everyone trains on the same internet and the edge lies in the final, task-specific training. For transaction models that is only half true. Here the pretraining data is private and different for every builder, so layer one decides what a model can ever learn. Layers two and three decide whether it is worth anything.</p>
+
+          <h3>Who should build what</h3>
+          <ul>
+            <li><strong>Banks should own capacity and outcomes:</strong> credit, income, affordability, collections and next-best product. Nobody else has the inflows or the repayment history.</li>
+            <li><strong>Networks should own behaviour across institutions and in real time:</strong> coordinated fraud, merchant risk, authorization, and checking that an agent is who it says it is.</li>
+            <li><strong>Shared problems need a protocol, not a winner.</strong> Scams, laundering, affluence and agentic commerce all span institutions.</li>
+            <li><strong>The document and consent layer</strong> reconciles what a borrower declares with what their money did, across banks. It also serves the long tail of lenders that will never pretrain a model of their own.</li>
+          </ul>
+
+          <h3>Where that leaves startups</h3>
+          <p>Models now make known techniques cheap, so anything published or open source is within everyone's reach. What stays expensive is creating knowledge that does not exist yet. Large incumbents win without being original, because they already have the data and the distribution.</p>
+
+          <p>A startup does not have to beat Stripe at fraud or JPMorgan at credit. It can hold positions incumbents structurally cannot: pooling signal across many lending institutions, which no single bank can do; serving the institutions that will never build their own models; and building the plumbing that lets banks and networks exchange signals and outcomes safely. None of that is frontier research. All of it is hard to copy.</p>
+        </section>
+
+        <section id="impact" class="doc-section">
+          <h2>Impact &amp; what to do</h2>
+
+          <p>Model metrics convince data scientists. Business teams are convinced by a shorter queue, a faster yes and fewer write-offs.</p>
+
+          <ul>
+            <li><strong>Turnaround time.</strong> Most institutions already have tools that read statements, so the time now goes into exceptions: lines nobody could attribute, documents that disagree, income that looks irregular until someone works out who actually paid it. Better counterparty resolution shrinks that pile.</li>
+            <li><strong>Credit disbursement.</strong> Most of the gain sits at the margin. Self-employed and gig income looks lumpy to a scorecard but steady once each inflow is traced to a real customer or platform. Excluding transfers between the applicant's own accounts stops income being counted twice.</li>
+            <li><strong>Collections.</strong> Early warning only helps if it arrives before the missed payment. The signals that move first are behavioural: a salary that lands late or smaller, auto-debits bouncing on other loans, fresh loans taken elsewhere, a balance drained right after payday.</li>
+            <li><strong>Fraud operations.</strong> Most fraud queues are full of false alarms. Tampered statements, money going round between related accounts, mule patterns and balance manipulation each leave a specific shape.</li>
+            <li><strong>Marketing.</strong> Personas built from behaviour beat segments built from demographics. A business paying foreign exchange charges is a trade finance lead. One paying a large staff every month is a payroll lead.</li>
+            <li><strong>Customer lifetime value, as the north star.</strong> Each team can win its own metric at the customer's expense: fraud by declining too much, marketing by messaging too often, collections by pushing too hard. Lifetime value is the one measure where all three mistakes show up.</li>
+          </ul>
+
+          <h3>Implications for practice</h3>
+          <ul>
+            <li><strong>Banks.</strong> Start with fraud, where labels arrive in days and explanations matter less, then move to credit. Invest first in capturing outcomes cleanly and getting data off overnight batches; the model is the easier part.</li>
+            <li><strong>Networks and processors.</strong> Offer embeddings and scores to issuers as a product, and ask for outcomes back in return. Build agent identity and mandates into the rails before agent traffic grows.</li>
+            <li><strong>Regulators.</strong> Treat shared embeddings as personal data. Set clear rules for consent-based exchange of signals and outcomes.</li>
+            <li><strong>Smaller lenders.</strong> Buy or pool rather than pretrain. Put effort into resolving counterparties and sending repayment outcomes back.</li>
+            <li><strong>Startups.</strong> Pick a position incumbents cannot easily copy: pooling across lenders, serving the long tail, or building the plumbing between banks and networks.</li>
+          </ul>
+
+          <h3>A proposal: an open framework for sharing insights</h3>
+          <p>If most of the gain comes from combining views, the practical question is how institutions can share what they learn without sharing their customers. Two rules: share artifacts, never raw data, and never share personal information.</p>
+
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead><tr><th>Layer</th><th>What is shared</th><th>What never leaves the institution</th></tr></thead>
+              <tbody>
+                <tr><td>Model outputs</td><td>Embeddings and risk scores on an agreed schema, at decision time</td><td>Raw transactions, statements and account details</td></tr>
+                <tr><td>Typologies</td><td>Confirmed fraud, scam and mule patterns, described as shapes of behaviour</td><td>The customers those patterns were found in</td></tr>
+                <tr><td>Outcomes</td><td>Confirmed fraud and repayment labels, linked through pseudonymous tokens</td><td>Names, contact details and identity documents</td></tr>
+                <tr><td>Model cards</td><td>What each shared model learned from, its known limits and how it drifts</td><td>Proprietary features and model weights</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>A few principles would make it work: non-personal by design, with hashed tokens, minimum group sizes and added statistical noise; consent where it matters, riding existing rails such as open banking; give-to-get, so nobody free-rides; neutral stewardship by an industry body that regulators can inspect; and start narrow, with fraud and mule typologies first.</p>
+
+          <p>None of these pieces is new. Fraud consortia, open banking and federated learning already exist. What is missing is a shared standard for the artifacts that foundation models now produce. I would welcome collaborators in drafting one.</p>
+
+          <h3>Conclusion</h3>
+          <p>I started with the question of why banks are building foundation models. I have ended up with a different one: which half of the customer can each institution see, and who is willing to share the other half?</p>
+
+          <p>Banks are building these models because their behavioural history and their outcomes are finally usable at scale, and because nobody else has that pairing. Networks are building them because they see what no single bank can.</p>
+
+          <p class="closing-line">The institutions that pull ahead will not be the ones with the largest models. They will be the ones that close the loop between behaviour and outcome fastest, and find a partner for the half they cannot see.</p>
+        </section>
+
+      </div>
+
+      <!-- ============ ANNEXURE ============ -->
+      <div id="panel-annexure" role="tabpanel" aria-labelledby="tab-annexure" hidden>
+
+        <section id="privacy" class="doc-section">
+          <h2>Privacy &amp; compliance</h2>
+
+          <p>None of this works unless it is designed around privacy and data protection law from the first day, and that law differs by geography. The EU's GDPR, US financial privacy law, newer national data protection acts and central bank rules on where payment data must be stored each set different terms for consent, purpose, retention and where data may live.</p>
+
+          <p>In practice that comes down to a few choices:</p>
+          <ul>
+            <li><strong>Consent and purpose.</strong> Use data only for what the customer agreed to, and keep a record of that consent. Account-aggregator-style frameworks build this into every data request.</li>
+            <li><strong>Minimization.</strong> Share scores and embeddings rather than raw transactions, and only what a decision needs.</li>
+            <li><strong>Protection.</strong> Pseudonymized identifiers, tight access controls and full audit trails.</li>
+            <li><strong>Locality.</strong> Keep data in the region the law requires, and train models within that region where needed.</li>
+            <li><strong>Federated training</strong> where pooling raw data is not allowed at all.</li>
+            <li><strong>Explainability and contestability.</strong> A customer can ask why a decision was made, and a regulator can audit it.</li>
+          </ul>
+
+          <p>It is tempting to read strict regimes as a reason not to try. The evidence points the other way. Revolut and Stripe both operate under GDPR across Europe, and both have built these models. Open banking in the UK and the EU runs consent-based data sharing inside the same rules. High barriers shape how this work is built; they have not stopped it from being built.</p>
+        </section>
+
+        <section id="risks" class="doc-section">
+          <h2>Risks &amp; limits</h2>
+
+          <p>I would be overstating the case if I stopped at the upside. A few things worry me.</p>
+          <ul>
+            <li><strong>Embeddings are still personal data.</strong> A compact vector of someone's behaviour can reveal a lot. Regulators may treat shared embeddings much like the raw data, and they would be right to look closely.</li>
+            <li><strong>Power concentrates.</strong> If banks come to depend on a network's view of their own customers, the network gains leverage over pricing and access.</li>
+            <li><strong>Reasons still matter.</strong> Credit decisions need explanations and fair lending checks. Fraud is the easier first use, which is likely why most early results are about fraud.</li>
+            <li><strong>The evidence is young.</strong> Most published numbers are relative, self-reported, and from fintechs rather than incumbent banks.</li>
+            <li><strong>Outcomes arrive slowly.</strong> Fraud labels come in days. Credit outcomes take months or years, so credit models learn slowly however good the architecture is.</li>
+            <li><strong>Agents change the data.</strong> If a growing share of payments is made by software, the behaviour these models learned from humans may stop describing the customer.</li>
+          </ul>
+
+          <p>And there is a lot I do not know. Whether banks will share signals with networks they also compete with. Whether data consortia can work at scale outside markets that already have a consent framework. And whether the label "foundation model" adds much beyond very good representation learning &mdash; though the operational gains look real either way.</p>
+
+          <h3>What these models still cannot see</h3>
+          <p>A fair question is whether foundation models simply hit the same ceiling as hand-built rules. I think they raise it rather than remove it. The ceiling moves from what people think to write down to what the data actually covers.</p>
+          <ul>
+            <li><strong>What rises.</strong> A behavioural model learns patterns nobody wrote down, and a new attack often shows up as a tight cluster of similar behaviour before anyone has labelled it.</li>
+            <li><strong>What stays.</strong> If a signal lives off the rails or outside the institution, the model is blind to it, however large it is.</li>
+            <li><strong>Scams that look normal.</strong> When the real customer approves the payment, the transaction itself can look perfectly ordinary.</li>
+            <li><strong>Unusual is not fraud.</strong> A model can flag a departure from the norm; a person or a confirmed label still has to say it was bad.</li>
+          </ul>
+          <p>So rules and human review stay in the loop. They just move further up.</p>
+        </section>
+
+        <section id="limits" class="doc-section">
+          <h2>Limits of this piece</h2>
+          <ul>
+            <li><strong>A small number of conversations.</strong> These are interviews, not a survey, and they lean toward large institutions.</li>
+            <li><strong>Self-reported numbers.</strong> Most published results are relative improvements I could not verify independently.</li>
+            <li><strong>A lens from one market.</strong> The document layer matters most where statements are text-heavy and consent-based sharing exists. It may matter less elsewhere.</li>
+            <li><strong>My own bias.</strong> I built in the document layer, so I may rate its importance higher than a neutral reader would.</li>
+          </ul>
+        </section>
+
+        <section id="about" class="doc-section">
+          <h2>About the author</h2>
+          <p>Adarsh Ravindra is an MBA candidate at Cornell. Before Cornell, he spent four years at IDfy building what his team believes was the first transaction intelligence platform in its market, which produced more than 300 decisioning signals across income, risk, fraud, cross-sell and upsell for banking and lending institutions, built on three small language models working in sequence. The platform today supports more than 500K user onboardings for financial enterprises every month, and he holds product and process patents for its intelligence and novel capabilities.</p>
+        </section>
+
+        <section id="sources" class="doc-section">
+          <h2>Sources</h2>
+          <ul class="source-list">
+            <li>Forrester, <em>Banks Are Building Private Foundation Models, But The Model Is Not The Moat</em>, September 2026</li>
+            <li>Stripe, <em>The ML flywheel: how we continually improve our models to reduce card testing</em></li>
+            <li>The Cognitive Revolution, <em>Stripe's Payments Foundation Model</em>, with Emily Sands</li>
+            <li>Visa, <em>TransactionGPT</em>, arXiv 2511.08939, and the alphaXiv overview</li>
+            <li>J.P. Morgan Payments, <em>Mastercard and AI foundation models in finance</em>, interview with Steve Flinter</li>
+            <li>Revolut, <em>PRAGMA: Revolut Foundation Model</em>, arXiv 2604.08649</li>
+            <li>Philipp Dubach, <em>Inside PRAGMA: Revolut's Foundation Model for Banking</em></li>
+            <li>Nubank, <em>How Nubank uses transformers to model financial habits at scale</em></li>
+            <li>Interviews with people at JPMorgan and Razorpay, 2026</li>
+          </ul>
+        </section>
+
+      </div>
+
+    </article>
+  </div>
+
+  <nav class="wrap case-next">
+    <span class="case-next-label">Back</span>
+    <a href="../index.html#work" class="case-next-name">All research &rarr;</a>
+  </nav>
+</main>
+
+<script src="../js/main.js?v=16"></script>
+</body>
+</html>
